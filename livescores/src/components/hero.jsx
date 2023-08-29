@@ -40,14 +40,14 @@ const Hero = () => {
   }) */
 
   return (
-    <main className="flex justify-center">
+    <main className="flex justify-center pt-12">
       <div id="date">
         <h2></h2> 
       </div>
-      <div className="flex space-x-4" id="League">
-        <img src={champlogo} className="w-16 h-16"></img>
+      <div className="flex items-center" id="League">
+        <img src={champlogo} className="w-12 h-12"></img>
         <h1 className="text-xl font-bold">Qualification</h1>
-        <h2 className="font-light pt-0">Champions League</h2>
+        <h2 className="font-light">Champions League</h2>
       </div>
     </main>
   )
