@@ -6,7 +6,7 @@ const Hero = () => {
   /* const [data, setData] = useState([]);
 
   useEffect(() => {
-    const fetchData = async() => {
+    const fetchFixtures = async() => {
       const date = new Date();
       let day = date.getDate();
       let month = date.getMonth();
@@ -40,14 +40,16 @@ const Hero = () => {
   }) */
 
   return (
-    <main className="flex justify-center pt-12">
+    <main className="flex justify-center items-center pt-12">
       <div id="date">
-        <h2></h2> 
+        <h2></h2>
       </div>
-      <div className="flex items-center" id="League">
-        <img src={champlogo} className="w-12 h-12"></img>
-        <h1 className="text-xl font-bold">Qualification</h1>
-        <h2 className="font-light">Champions League</h2>
+        <div className="flex items-center" id="League">
+          <img src={champlogo} className="w-10 h-10"></img>
+          <div className="ml-2">
+            <h1 className="text-xl font-bold">Qualification</h1>
+            <h2 className="font-light">Champions League</h2>
+          </div>
       </div>
     </main>
   )
