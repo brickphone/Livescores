@@ -40,9 +40,9 @@ const Hero = () => {
   }) */
 
   return (
-    <main className="flex justify-center items-center pt-12">
+    <main className="flex justify-center items-center pt-12 border-solid border-red-300">
       <div id="date">
-        <h2></h2>
+        <h2>Thursday</h2>
       </div>
         <div className="flex items-center" id="League">
           <img src={champlogo} className="w-10 h-10"></img>
