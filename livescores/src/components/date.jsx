@@ -1,9 +1,9 @@
-const date = () => {
+const Date = () => {
   return (
     <div id="date">
-      <h2>Thursday</h2>
+      <h1>Thursday</h1>
     </div>
   )
 }
 
-export default date;
+export default Date;
