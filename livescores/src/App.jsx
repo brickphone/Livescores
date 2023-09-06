@@ -1,11 +1,14 @@
 import './index.css'
-import Hero from './components/hero';
+import Fixtures from './components/fixtures';
 import Navbar from '../src/components/navbar'
+import data from './dummydata';
 
 const App = () => {
   return (
-    <Navbar/>
-    <Hero />
+    <div>
+      <Navbar/>
+      <Fixtures data={data}/>
+    </div>
   )
 }
 
