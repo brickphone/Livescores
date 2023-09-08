@@ -4,10 +4,11 @@ import Navbar from '../src/components/navbar'
 import data from './dummydata';
 
 const App = () => {
+  
   return (
     <div>
       <Navbar/>
-      <Fixtures data={data}/>
+      <Fixtures />
     </div>
   )
 }
