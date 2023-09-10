@@ -25,28 +25,40 @@ const Fixtures = () => {
     return <div>No data</div>;
   } */
 
-  const leagueList = data.response.map(league => {
-    return (
-      <League 
-        key={league.fixture.id}
-        name={league.league.name}
-        country={league.league.country}
-        flag={league.league.logo}
-      />
-    )
-  })
+  const fixtures = data.response;
 
-  const matchList = data.response.map(match => {
-    return (
-      <Matches 
-        key={match.fixture.id}
-        homeName={match.teams.home.name}
-        homeLogo={match.teams.home.logo}
-        awayName={match.teams.away.name}
-        awayLogo={match.teams.away.logo}
+  if (!fixtures.length) {
+    return <div>No data</div>;
+  }
+
+  const matchesByLeague = {};
+
+  fixtures.forEach((match) => {
+    const leagueName = match.league.name;
+    if (!matchesByLeague[leagueName]) {
+      matchesByLeague[leagueName] = [];
+    }
+    matchesByLeague[leagueName].push(match);
+  });
+
+  const leagueList = Object.keys(matchesByLeague).map((leagueName) => (
+    <div key={leagueName}>
+      <League
+        name={leagueName}
+        country={matchesByLeague[leagueName][0].league.country}
+        flag={matchesByLeague[leagueName][0].league.flag}
       />
-    )
-  })
+      {matchesByLeague[leagueName].map((match) => (
+        <Matches
+          key={match.fixture.id}
+          homeName={match.teams.home.name}
+          homeLogo={match.teams.home.logo}
+          awayName={match.teams.away.name}
+          awayLogo={match.teams.away.logo}
+        />
+      ))}
+    </div>
+  ));
 
   console.log(League)
 
@@ -54,7 +66,6 @@ const Fixtures = () => {
     <main>
       <Dates />
       {leagueList}
-      {matchList}
     </main>
   )
 };
