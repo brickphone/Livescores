@@ -20,10 +20,7 @@ const Fixtures = () => {
    useEffect(() => {
      fetchInfo();
    }, []);
-
-   if (!fixtures.length) {
-    return <div>No data</div>;
-  } */
+   */
 
   const fixtures = data.response;
 

@@ -20,7 +20,7 @@
 
 .league-container {
   border: 1px solid #D9D9D9;
-  width: 330px;
+  width: 350px;
   height: 80px;
 }
 
@@ -34,4 +34,8 @@
 
 .logo-padding {
   padding-right:86px;
+}
+
+.left-padding-logo {
+  padding-left:110px;
 }

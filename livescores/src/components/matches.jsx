@@ -8,8 +8,9 @@ const Matches = (props) => {
         <div className='flex items-center' id='hometeam'>
           <img className='w-18 h-18' src={props.homeLogo}></img>
           <h2 className='pl-2 font-semibold'>{props.homeName}</h2>
+          <h2 className="font-bold pl-" id="homescore">1</h2>
         </div>
-        <div className='flex items-center logo-padding pt-1' id='awayteam'>
+        <div className='flex items-center pt-1 ' id='awayteam'>
           <img className='w-18 h-18' src={props.awayLogo}></img>
           <h2 className='pl-2 font-semibold'>{props.awayName}</h2>
         </div>
