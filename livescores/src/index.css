@@ -39,3 +39,10 @@
 .left-padding-logo {
   padding-left:110px;
 }
+
+.is-live {
+  width: 12px;
+  height: 28px;
+  border-radius: 3px;
+  background: #F0010F;
+}
