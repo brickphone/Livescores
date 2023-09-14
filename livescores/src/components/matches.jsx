@@ -3,10 +3,14 @@ const Matches = (props) => {
   
   return (
     <div className="flex items-center justify-center">
-      <div className="flex flex-col items-start justify-center league-container px-16 hover:bg-slate-100" id="teams">
-          <div className="is-live flex items-start justify-start" id="livebox">
-            <h2></h2>
-          </div>
+      <div className="flex flex-col items-start justify-center league-container px-16 hover:bg-slate-100" id="teams" style={{ position: 'relative' }}>
+        <div className="is-live flex pr-2 absolute" id="red-box" style={{ left: '0' }}>
+            {
+              (props.matchTime !== undefined)
+              ? <h2 className="pl-5 pt-1 text-red-600" id="time">{props.matchTime}</h2>
+              : <h3>NO TIME</h3>
+            }
+        </div>
         <div className=" flex justify-between items-center" id="hometeam">
           <img className="w-18 h-18 flex-none" src={props.homeLogo}></img>
           <h2 className="pl-2 font-semibold w-32 text-left">{props.homeName}</h2>

@@ -2,9 +2,6 @@ import Dates from './date'
 import League from './league'
 import Matches from './matches'
 import data from '../dummydata'
-import champlogo from '../assets/champlogo.png' // logo placeholder
-import cityLogo from '../assets/citylogo.png' // logo placeholder
-import ajaxLogo from '../assets/ajaxlogo.png' // logo placeholder
 import { useEffect, useState } from 'react'
 import { fetchFixtures } from '../api'
 
@@ -54,6 +51,7 @@ const Fixtures = () => {
           awayLogo={match.teams.away.logo}
           homeScore={match.goals.home}
           awayScore={match.goals.away}
+          matchTime={match.status.elapsed}
         />
       ))}
     </div>
