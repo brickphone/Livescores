@@ -46,3 +46,7 @@
   border-radius: 3px;
   background: #F0010F;
 }
+
+.navbar-line {
+  border-bottom: 1px solid #D9D9D9;  
+}

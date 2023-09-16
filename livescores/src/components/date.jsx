@@ -16,6 +16,7 @@ const Dates = () => {
   return (
     <div className="flex items-center flex-col padding-67" id="date">
       <h1 className="font-bold text-2xl">TODAY</h1>
+      <span className="text-xl" id="calender">🗓️</span>
       <h2>{today}</h2>
     </div>
   )

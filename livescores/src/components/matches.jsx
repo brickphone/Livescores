@@ -7,7 +7,7 @@ const Matches = (props) => {
         <div className="is-live flex pr-2 absolute" id="red-box" style={{ left: '0' }}>
             {
               (props.matchTime !== undefined)
-              ? <h2 className="pl-5 pt-1 text-red-600" id="time">{props.matchTime + "'"}</h2>
+              ? <h2 className="pl-5 pt-1 text-red-600 font-semibold" id="time">{props.matchTime + "'"}</h2>
               : null
             }
         </div>
