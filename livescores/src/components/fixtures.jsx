@@ -51,7 +51,7 @@ const Fixtures = () => {
           awayLogo={match.teams.away.logo}
           homeScore={match.goals.home}
           awayScore={match.goals.away}
-          matchTime={match.status.elapsed}
+          matchTime={match.fixture.status.elapsed}
         />
       ))}
     </div>
