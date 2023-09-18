@@ -28,15 +28,15 @@ const Navbar = () => {
   }, []);
 
   const sidebarStyle = {
-    width: isOpen ? "300px" : "0", 
+    width: "300px",
     height: "100%", 
     position: "fixed",
     borderRadius: isOpen ? "0 20px 20px 0" : "0",
     top: 0,
-    left: 0,
+    left: isOpen ? 0 : -300,
     backgroundColor: "#f1f5f9",
     overflowX: "hidden",
-    transition: "all 2.5s",
+    transition: "all 1s ease-out",
     zIndex: 1,
   };
 
@@ -50,12 +50,13 @@ const Navbar = () => {
     height: "100%",
     backgroundColor: "rgba(0, 0, 0, 0.2)",
     zIndex: 2,
+    
   }
 
   return (
     <main>
       <div style={overlayStyle}>
-        <div style={sidebarStyle} ref={sidebarRef}>
+        <div className={"top-0 right-0 w-[35vw] bg-blue-600  p-10 pl-20 text-white fixed h-full z-40  ease-in-out duration-300"} ref={sidebarRef}>
         {isOpen && (
           <div className="sidebar-content flex flex-row">
             <ul>

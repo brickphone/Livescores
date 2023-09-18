@@ -5,8 +5,6 @@ import { useState } from 'react';
 const Matches = (props) => {
   const [loading, setLoading] = useState(false);
 
-
-
   return (
     <div className="flex items-center justify-center">
       <div className="flex flex-col items-start justify-center league-container px-16 hover:bg-slate-100" id="teams" style={{ position: 'relative' }}>
