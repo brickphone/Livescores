@@ -48,6 +48,7 @@
 }
 
 .navbar-line {
+  box-shadow: 0 5px 5px 0 rgba(0,0,0,.2);
   border-bottom: 1px solid #D9D9D9;  
 }
 
