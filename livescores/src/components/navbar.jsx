@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { FaBars } from 'react-icons/fa'
 import { GrClose } from 'react-icons/gr'
 import { Drawer } from "@mui/material";
+import Switch from '@mui/material/Switch';
+import { MdOutlineDarkMode } from "react-icons/md"
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -22,7 +24,6 @@ const Navbar = () => {
     if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       setIsOpen(false);
       console.log("closing sidebar");
-
     }
   }
 
@@ -49,44 +50,38 @@ const Navbar = () => {
   };
   
   const drawer = (
-    <Drawer anchor="left" open={isOpen} onClose={toggleSidebar}>
+    <Drawer anchor="left" open={isOpen} onClose={() => setIsOpen(false)}>
       <div style={sidebarStyle} ref={sidebarRef}>
-        <div className="sidebar-content flex flex-row">
-          <ul>
-            <GrClose className=""></GrClose>
-          </ul>
+        <div className="sidebar-content flex flex-row justify-center pt-4 pl-56 ">
+          <GrClose onClick={toggleSidebar} className="close-button text-xl"></GrClose>
         </div>
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <FaBars /> : <GrClose />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
+        <ul className="flex flex-col pt-4 pl-4">
+          <div className="flex items-center" id="list-item">
+            <MdOutlineDarkMode className="text-xl"/>
+            <h1 className="pl-1">Dark mode</h1>
+            <Switch />
+          </div>
+          <div className="flex items-center" id="list-item">
+            
+          </div>
+        </ul>
       </div>
     </Drawer>
   );
 
-
-
   return (
-    <main>
-        {drawer}
-        
+    <navbar className="bg-white sticky top-0">
+      {drawer}
       <div className="flex custom-padding padding-left space-x-1 items-center">
         <div className="sidebar-button-container">
-          <FaBars className="sidebar-button text-xl"  onClick={toggleSidebar} />
+          <FaBars className="sidebar-button text-xl" onClick={toggleSidebar} />
         </div>
         <h1 className="font-bold text-xl">LIVESCORE</h1>
         <span id="football-emoji">⚽</span>
       </div>
       <div className="navbar-line mt-3">
       </div>
-    </main>
+    </navbar>
   );
 }
 
