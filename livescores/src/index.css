@@ -62,3 +62,7 @@
   background-color: #D9D9D9;
   cursor: pointer; 
 }
+
+.body-blurred {
+  opacity: 0.5; 
+}

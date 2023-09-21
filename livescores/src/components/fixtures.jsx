@@ -7,18 +7,6 @@ import { fetchFixtures } from '../api'
 
 
 const Fixtures = () => {
- /*  const [fixtures, setFixtures] = useState(data) */
-   
-  /*  const fetchInfo = async () => {
-    const data = await fetchFixtures();
-     setFixtures(data);
-   };
-
-   useEffect(() => {
-     fetchInfo();
-   }, []);
-   */
-
   const fixtures = data.response;
 
   if (!fixtures.length) {
@@ -58,6 +46,7 @@ const Fixtures = () => {
   ));
 
   console.log(League)
+  
 
   return (
     <main>

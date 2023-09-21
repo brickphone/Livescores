@@ -1,18 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { FaBars } from 'react-icons/fa'
 import { GrClose } from 'react-icons/gr'
+import { Drawer } from "@mui/material";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Divider from '@mui/material/Divider';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef(null) // outside click reference point
-
-  useEffect(() => {
-    if (isOpen === false) {
-      document.body.style.opacity = 1;
-    } else {
-      document.body.style.opacity = 0.5;
-    }
-  }, [isOpen])
 
   const toggleSidebar = (event) => {
     event.stopPropagation(); // prevent sidebar from not opening
@@ -50,19 +48,35 @@ const Navbar = () => {
     boxShadow: isOpen ? "-10px 0px 10px rgba(0, 0, 0, 0.2)" : "none",
   };
   
+  const drawer = (
+    <Drawer anchor="left" open={isOpen} onClose={toggleSidebar}>
+      <div style={sidebarStyle} ref={sidebarRef}>
+        <div className="sidebar-content flex flex-row">
+          <ul>
+            <GrClose className=""></GrClose>
+          </ul>
+        </div>
+        <Divider />
+        <List>
+          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+            <ListItem key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <FaBars /> : <GrClose />}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        </List>
+      </div>
+    </Drawer>
+  );
+
+
 
   return (
     <main>
-        <div style={sidebarStyle} ref={sidebarRef}>
-        {isOpen && (
-          <div className="sidebar-content flex flex-row">
-            <ul>
-              <GrClose className=""></GrClose>
-            </ul>
-          </div>
-        )}
-      </div>
-      
+        {drawer}
+        
       <div className="flex custom-padding padding-left space-x-1 items-center">
         <div className="sidebar-button-container">
           <FaBars className="sidebar-button text-xl"  onClick={toggleSidebar} />
