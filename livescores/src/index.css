@@ -73,3 +73,6 @@
   cursor: pointer;
 }
 
+.navbar-container {
+  z-index: 999;
+}

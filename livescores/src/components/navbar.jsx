@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { FaBars } from 'react-icons/fa'
 import { GrClose } from 'react-icons/gr'
 import { Drawer } from "@mui/material";
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import Switch from '@mui/material/Switch';
 import { MdOutlineDarkMode } from "react-icons/md";
 
@@ -67,7 +65,7 @@ const Navbar = () => {
   );
 
   return (
-    <navbar className="bg-white sticky top-0">
+    <nav className="bg-white sticky top-0 navbar-container">
       {drawer}
       <div className="flex custom-padding padding-left space-x-1 items-center">
         <div className="sidebar-button-container">
@@ -80,7 +78,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-line mt-3"></div>
-    </navbar>
+    </nav>
   );
 }
 

@@ -19,3 +19,20 @@ export const fetchFixtures = async () => {
 
   return result;
 };
+
+export const saveLocal = async (data) => {
+  try {
+    localStorage.setItem('fixturesData', JSON.stringify(data));
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+export const getLocal = () => {
+  const data = localStorage.getItem('fixturesData');
+
+  if (data) {
+    return JSON.parse(data);
+  }
+  return null;
+};

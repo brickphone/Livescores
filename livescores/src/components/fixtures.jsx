@@ -1,17 +1,62 @@
 import Dates from './date'
 import League from './league'
 import Matches from './matches'
-import data from '../dummydata'
 import { useEffect, useState } from 'react'
-import { fetchFixtures } from '../api'
+import { fetchFixtures, saveLocal, getLocal } from '../api'
+import { Button } from '@mui/material'
 
 
 const Fixtures = () => {
-  const fixtures = data.response;
+  const [fixtures, setFixtures] = useState([]);
+  const [loading, setLoading] = useState(true);
+ 
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      const storedData = getLocal();
 
-  if (!fixtures.length) {
-    return <div>No data</div>;
+      if (storedData) {
+        console.log("data loaded from localstorage.");
+
+        setFixtures(storedData);
+        setLoading(false);
+      } else {
+        try {
+          const data = await fetchFixtures();
+          setFixtures(data.reponse);
+          setLoading(false);
+
+          console.log("data fetched from API.")
+          saveLocal(data.response); // save data in localstorage
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    };
+    fetchData();
+  }, [])
+
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+
+      const data = await fetchFixtures();
+      setFixtures(data.response);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
+  if (loading) {
+    return (
+      <div></div>
+    )
   }
+
 
   const matchesByLeague = {};
 
@@ -51,6 +96,7 @@ const Fixtures = () => {
   return (
     <main>
       <Dates />
+      <Button onClick={fetchData}>Refresh data</Button>
       {leagueList}
     </main>
   )
