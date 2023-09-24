@@ -1,105 +1,88 @@
-import Dates from './date'
-import League from './league'
-import Matches from './matches'
-import { useEffect, useState } from 'react'
-import { fetchFixtures, saveLocal, getLocal } from '../api'
-import { Button } from '@mui/material'
-
+import React, { useEffect, useState } from 'react';
+import Dates from './date';
+import League from './league';
+import Matches from './matches';
+import { fetchFixtures, saveLocal, getLocal } from '../api';
+import { Button } from '@mui/material';
+import Stack from '@mui/material/Stack';
+import Skeleton from '@mui/material/Skeleton';
 
 const Fixtures = () => {
   const [fixtures, setFixtures] = useState([]);
   const [loading, setLoading] = useState(true);
- 
-  
+
   useEffect(() => {
     const fetchData = async () => {
       const storedData = getLocal();
 
       if (storedData) {
-        console.log("data loaded from localstorage.");
-
+        console.log('Data loaded from local storage.');
         setFixtures(storedData);
-        setLoading(false);
+        /* setLoading(false) */;
       } else {
         try {
           const data = await fetchFixtures();
-          setFixtures(data.reponse);
-          setLoading(false);
+          setFixtures(data.response);
+          /* setLoading(false); */
 
-          console.log("data fetched from API.")
-          saveLocal(data.response); // save data in localstorage
+          console.log('Data fetched from API.');
+          saveLocal(data.response); // save data in local storage
         } catch (error) {
           console.log(error);
         }
       }
     };
     fetchData();
-  }, [])
-
+  }, []);
 
   const fetchData = async () => {
     try {
-      setLoading(true);
+      /* setLoading(true); */
 
       const data = await fetchFixtures();
       setFixtures(data.response);
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
+      /* setLoading(false); */
     }
   };
 
-
-  if (loading) {
-    return (
-      <div></div>
-    )
-  }
-
-
-  const matchesByLeague = {};
-
-  fixtures.forEach((match) => {
-    const leagueName = match.league.name;
-    if (!matchesByLeague[leagueName]) {
-      matchesByLeague[leagueName] = [];
-    }
-    matchesByLeague[leagueName].push(match);
-  });
-
-  const leagueList = Object.keys(matchesByLeague).map((leagueName) => (
-    <div key={leagueName}>
-      <League
-        name={leagueName}
-        country={matchesByLeague[leagueName][0].league.country}
-        flag={matchesByLeague[leagueName][0].league.flag}
-      />
-      {matchesByLeague[leagueName].map((match) => (
-        <Matches
-          key={match.fixture.id}
-          homeName={match.teams.home.name}
-          homeLogo={match.teams.home.logo}
-          awayName={match.teams.away.name}
-          awayLogo={match.teams.away.logo}
-          homeScore={match.goals.home}
-          awayScore={match.goals.away}
-          matchTime={match.fixture.status.elapsed}
-        />
-      ))}
-    </div>
-  ));
-
-  console.log(League)
-  
+  const skeletonArray = Array.from({ length: fixtures.length }, (_, index) => index);
 
   return (
     <main>
       <Dates />
       <Button onClick={fetchData}>Refresh data</Button>
-      {leagueList}
+      {loading ? (
+        skeletonArray.map((index) => (
+          <Stack className='items-center' key={index} spacing={1}>
+            <Skeleton variant="text" sx={{ fontSize: '2rem', width: "400px" }} />
+          </Stack>
+        ))
+      ) : (
+        fixtures.map((match) => (
+          <div key={match.fixture.id}>
+            <League
+              name={match.league.name}
+              country={match.league.country}
+              flag={match.league.flag}
+            />
+            <Matches
+              key={match.fixture.id}
+              homeName={match.teams.home.name}
+              homeLogo={match.teams.home.logo}
+              awayName={match.teams.away.name}
+              awayLogo={match.teams.away.logo}
+              homeScore={match.goals.home}
+              awayScore={match.goals.away}
+              matchTime={match.fixture.status.elapsed}
+            />
+          </div>
+        ))
+      )}
     </main>
-  )
+  );
 };
 
 export default Fixtures;
