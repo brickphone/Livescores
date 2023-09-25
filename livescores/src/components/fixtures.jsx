@@ -18,12 +18,12 @@ const Fixtures = () => {
       if (storedData) {
         console.log('Data loaded from local storage.');
         setFixtures(storedData);
-        /* setLoading(false) */;
+         setLoading(false);
       } else {
         try {
           const data = await fetchFixtures();
           setFixtures(data.response);
-          /* setLoading(false); */
+           setLoading(false); 
 
           console.log('Data fetched from API.');
           saveLocal(data.response); // save data in local storage
@@ -37,14 +37,14 @@ const Fixtures = () => {
 
   const fetchData = async () => {
     try {
-      /* setLoading(true); */
+       setLoading(true); 
 
       const data = await fetchFixtures();
       setFixtures(data.response);
     } catch (error) {
       console.log(error);
     } finally {
-      /* setLoading(false); */
+       setLoading(false);
     }
   };
 
@@ -57,7 +57,14 @@ const Fixtures = () => {
       {loading ? (
         skeletonArray.map((index) => (
           <Stack className='items-center' key={index} spacing={1}>
-            <Skeleton variant="text" sx={{ fontSize: '2rem', width: "400px" }} />
+            <div id="league" className='flex flex-row space-x-1 '>
+              <Skeleton variant="rectangular" width={80} height={60}/>
+              <div className='flex-col'>
+                <Skeleton  variant='text' width={80} height={20}/>
+                <Skeleton  variant='text' width={80} height={20}/>
+              </div>
+            </div>
+            <Skeleton variant="text" sx={{ fontSize: '2rem', width: '400px', height: "200px" }} />
           </Stack>
         ))
       ) : (
