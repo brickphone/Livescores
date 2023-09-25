@@ -18,19 +18,22 @@ const Fixtures = () => {
       if (storedData) {
         console.log('Data loaded from local storage.');
         setFixtures(storedData);
-         setLoading(false);
+        setLoading(false);
       } else {
         try {
+          setLoading(true); 
+
           const data = await fetchFixtures();
           setFixtures(data.response);
-           setLoading(false); 
-
+          
           console.log('Data fetched from API.');
           saveLocal(data.response); // save data in local storage
         } catch (error) {
           console.log(error);
         }
       }
+
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -41,6 +44,7 @@ const Fixtures = () => {
 
       const data = await fetchFixtures();
       setFixtures(data.response);
+      saveLocal(data.response);
     } catch (error) {
       console.log(error);
     } finally {
