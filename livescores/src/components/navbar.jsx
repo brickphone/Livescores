@@ -4,6 +4,7 @@ import { GrClose } from 'react-icons/gr'
 import { Drawer } from "@mui/material";
 import Switch from '@mui/material/Switch';
 import { MdOutlineDarkMode } from "react-icons/md";
+import { AiOutlineQuestionCircle } from "react-icons/ai"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +58,8 @@ const Navbar = () => {
             <Switch />
           </div>
           <div className="flex items-center" id="list-item">
-            
+            <AiOutlineQuestionCircle className="text-xl" />
+            <h1 className="pl-2">FAQ</h1>
           </div>
         </ul>
       </div>
@@ -73,8 +75,10 @@ const Navbar = () => {
         </div>
         <h1 className="font-bold text-xl">LIVESCORE</h1>
         <span id="football-emoji">⚽</span>
-        <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Login</button>
-        <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Sign Up</button>
+        <div className="flex ">
+          <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Login</button>
+          <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Sign Up</button>
+        </div>
       </div>
 
       <div className="navbar-line mt-3"></div>
