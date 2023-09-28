@@ -11,9 +11,6 @@ const App = () => {
       <div>
         <Navbar/>
         <Fixtures />
-          <Routes>
-            <Route path="/login" element={<Login />} />
-          </Routes>
       </div>
   )
 }
