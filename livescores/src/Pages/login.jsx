@@ -39,7 +39,6 @@ const Login = () => {
           <h2 className="px-4">Or</h2>
           <hr className="flex-grow border-t border-black-400" /> 
         </div>
-        
       </div>
     </form>
   );
