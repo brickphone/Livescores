@@ -1,8 +1,41 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
+import { useState } from "react";
 
 const Signup = () => {
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    try {
+      const response = axios.post("http://localhost:8080/user", {
+        email,
+        username,
+        password,
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      console.log(response);
+      setSuccess(true);
+      setErrorMessage("");
+    } catch (error) {
+      console.error(error);
+      setSuccess(false);
+      setErrorMessage("Error occured during signup. Try again.")
+    }
+  };
+
   return (
-    <form>
+    <form method="post" onSubmit={handleSubmit}>
       <div id="create-account" className="flex flex-col items-center pt-12">
         <div id="signup-text">
         <div id="signup-text" className="flex items-center">
@@ -14,10 +47,12 @@ const Signup = () => {
         <div id="signup-container" className="pr-2">
         <div id="username" className="flex pt-2 space-y-3">
             <input
-              type="username"
+              type="text"
               id="user"
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -40,7 +75,7 @@ const Signup = () => {
             />
           </div>
             <button 
-            type="button" 
+            type="submit" 
             className="mt-2 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Sign Up</button>
             <h2>
               Already have an account?{' '}
