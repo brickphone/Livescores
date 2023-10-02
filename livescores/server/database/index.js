@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import { connect } from "mongoose";
 
-const uri = 'mongodb+srv://mattishutt:!boX-netz-20-13@cluster0.2sndkdp.mongodb.net/'
+const uri = 'mongodb+srv://mattishutt:!boX-netz-20-13@cluster0.2sndkdp.mongodb.net/Livescores'
 
-const mongoConnection = mongoose.connect(uri).then(
+const mongoConnection = connect(uri).then(
   () => {
     console.log("Connected to mongo")
   },
@@ -11,4 +11,4 @@ const mongoConnection = mongoose.connect(uri).then(
   }
 );
 
-module.exports = mongoConnection;
+export default mongoConnection;

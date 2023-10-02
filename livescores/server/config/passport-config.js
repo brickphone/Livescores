@@ -1,26 +1,40 @@
-const passport = import('passport');
-const LocalStrategy = import('passport-local').Strategy;
+import UserModel from "../database/models/user";
+import bcrypt from "bcrypt";
+const localStrategy = require("passport-local").Strategy;
 
-const User = import('../database/models/user'); // Your User model
+module.exports = function (passport) {
+  passport.use(
+    new localStrategy(async (username, password, done) => {
+      try {
+        const user = await UserModel.findOne({ username: username });
+        if (!user) return done(null, false);
+        
+        const result = await bcrypt.compare(password, user.password);
+        
+        if (result === true) {
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
+      } catch (err) {
+        return done(err);
+      }
+    })
+  );
 
-passport.use(
-  new LocalStrategy(
-    {
-      usernameField: 'email', // Field for username (in this case, email)
-      passwordField: 'password', // Field for password
-    },
-    async (email, password, done) => {
-      // Your authentication logic here
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id, (err, user) => {
-    done(err, user);
+  passport.serializeUser((user, cb) => {
+    cb(null, user.id);
   });
-});
+  
+  passport.deserializeUser(async (id, cb) => {
+    try {
+      const user = await UserModel.findOne({ _id: id });
+      const userInformation = {
+        username: user.username,
+      };
+      cb(null, userInformation);
+    } catch (err) {
+      return cb(err);
+    }
+  });
+};
