@@ -43,11 +43,13 @@ app.post("/user", async (req, res) => {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new UserModel({
       username: req.body.password,
+      email: req.body.email,
       password: hashedPassword,
     });
 
     await user.save();
     res.send(user);
+    console.log("saved user: ", user)
   } catch (error) {
     console.error(error);
     res.status(500).send(error);

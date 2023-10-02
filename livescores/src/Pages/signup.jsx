@@ -33,7 +33,6 @@ const Signup = () => {
       setErrorMessage("Error occured during signup. Try again.")
     }
 
-    
   };
 
   return (
