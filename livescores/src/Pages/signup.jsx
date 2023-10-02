@@ -9,14 +9,14 @@ const Signup = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const response = axios.post("http://localhost:8080/user", {
-        email,
-        username,
-        password,
+      const response = await axios.post("http://localhost:3000/user", {
+        email: email,
+        username: username,
+        password: password,
       }, {
         headers: {
           "Content-Type": "application/json",
@@ -28,9 +28,13 @@ const Signup = () => {
       setSuccess(true);
       setErrorMessage("");
     } catch (error) {
-      console.error(error);
+      console.error(error.response.data);
       setSuccess(false);
       setErrorMessage("Error occured during signup. Try again.")
+    }
+
+    if (!setSuccess === false) {
+      
     }
   };
 
@@ -60,6 +64,8 @@ const Signup = () => {
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Email Adress"
               required
@@ -69,6 +75,8 @@ const Signup = () => {
           <input
               type="password"
               id="pass"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Password"
               required
