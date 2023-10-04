@@ -19,6 +19,7 @@ app.use(cors({
   credentials: true,
 }));
 
+// session cookies
 app.use(
   session({
     secret: "secretcode",
@@ -26,6 +27,7 @@ app.use(
     saveUninitialized: true
   })
 );
+// ---- end of middleware
 
 app.post("/user", async (req, res) => {
   try {
@@ -47,6 +49,7 @@ app.post("/user", async (req, res) => {
       password: hashedPassword,
     });
 
+    // saving users to db/mongo
     await user.save();
     res.send(user);
     console.log("saved user: ", user)
@@ -56,6 +59,7 @@ app.post("/user", async (req, res) => {
   }
 });
 
+// starting server
 app.listen(PORT, function(err) {
   if (err) {
     console.log("server could not start", err) 

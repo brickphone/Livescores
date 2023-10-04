@@ -6,7 +6,7 @@ import './index.css';
 import ErrorPage from "./Pages/error-page.jsx";
 import Signup from './Pages/signup.jsx';
 import Login from './Pages/login.jsx';
-
+import RegisterSucess from "./Pages/register-success.jsx"
 
 const router = createBrowserRouter([
   {
@@ -27,7 +27,13 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
-  }
+  },
+
+  {
+    path: "/success",
+    element: <RegisterSucess />
+  },
+  
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

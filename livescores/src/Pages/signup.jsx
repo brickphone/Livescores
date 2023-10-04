@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
@@ -8,8 +9,10 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
+    // Prevent site from reloading
     e.preventDefault();
 
     try {
@@ -23,6 +26,12 @@ const Signup = () => {
         },
         withCredentials: true,
       });
+
+      // Redirecting to success page if successful 
+      if (response.status === 200) {
+        console.log("Account has been created successfully.")
+        navigate("/success");
+      }
 
       console.log(response);
       setSuccess(true);
