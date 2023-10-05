@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express from "express";
 import mongoose from "mongoose";
 import UserModel from "./database/models/user.js";
 import mongoConnection from "./database/index.js";
@@ -6,6 +6,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import session from "express-session";
 import bcrypt from "bcrypt";
+import passport from "passport";
+import jwt from "jsonwebtoken";
+import passportConfig from "./config/passport-config.js";
 
 const app = express();
 const PORT = 3000;
@@ -14,6 +17,7 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// making sure request from client side work
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
@@ -27,6 +31,7 @@ app.use(
     saveUninitialized: true
   })
 );
+
 // ---- end of middleware
 
 app.post("/user", async (req, res) => {
@@ -58,6 +63,30 @@ app.post("/user", async (req, res) => {
     res.status(500).send(error);
   }
 });
+
+passportConfig(passport);
+
+app.post("/auth/login", (req, res, next) => {
+  passport.authenticate("local-login", { session: false }, (err, user) => {
+    if (err) {
+      return res.status(500).json({ message: "Failed to login" });
+    }
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Generate and send a JWT token
+    jwt.sign({ user }, "secretKey", { expiresIn: "1h" }, (error, token) => {
+      if (error) {
+        console.log("invalid credentials recived: ", req.body.email, req.body.password)
+        return res.status(500).json({ message: "Failed to login" });
+      }
+      res.json({ token });
+    });
+  })(req, res, next);
+});
+ 
+
 
 // starting server
 app.listen(PORT, function(err) {
