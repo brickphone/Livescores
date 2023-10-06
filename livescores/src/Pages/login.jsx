@@ -1,7 +1,11 @@
 const Login = () => {
 
+  const handleSubmit = async (e) => {
+
+  }
+
   return (
-    <form>
+    <form method="post" onSubmit={handleSubmit}>
       <div id="create-account" className="flex flex-col items-center pt-12">
         <div id="signup-text" className="pr-24">
         <div id="signup-text" className="flex items-center">

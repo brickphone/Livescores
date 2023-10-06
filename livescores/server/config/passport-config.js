@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 import { Strategy as LocalStrategy } from "passport-local";
 
 export default (passport) => {
+  // signup stratergy
   passport.use(
     "local-signup",
     new LocalStrategy(
@@ -29,6 +30,7 @@ export default (passport) => {
     )
   );
 
+  // login stratergy
   passport.use(
     "local-login",
     new LocalStrategy(
@@ -55,3 +57,17 @@ export default (passport) => {
     )
   );
 };
+
+// serializing user 
+passport.serializeUser((user, done) => {
+  done(null, user.id)
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await user.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
