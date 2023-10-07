@@ -9,6 +9,7 @@ import bcrypt from "bcrypt";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import passportConfig from "./config/passport-config.js";
+import { generateToken } from "./jwtUtils.js";
 
 const app = express();
 const PORT = 3000;
@@ -49,7 +50,7 @@ app.post("/user", async (req, res) => {
     // hash password before save
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new UserModel({
-      username: req.body.password,
+      username: req.body.username,
       email: req.body.email,
       password: hashedPassword,
     });
@@ -76,17 +77,14 @@ app.post("/auth/login", (req, res, next) => {
     }
 
     // Generate and send a JWT token
-    jwt.sign({ user }, "secretKey", { expiresIn: "1h" }, (error, token) => {
-      if (error) {
-        console.log("invalid credentials recived: ", req.body.email, req.body.password)
-        return res.status(500).json({ message: "Failed to login" });
-      }
-      res.json({ token });
-    });
+    const token = generateToken(user);
+    res.json({ token });
   })(req, res, next);
 });
  
-
+app.post("/auth/login", (req, res, next) => {
+  console.log("recieved login request with email:", req.body.email, "and password", req.body.password);
+})
 
 // starting server
 app.listen(PORT, function(err) {
@@ -96,3 +94,4 @@ app.listen(PORT, function(err) {
     console.log("Server listening on Port:", PORT)
   }
 })
+

@@ -1,7 +1,39 @@
+import { useState } from "react";
+import { generateToken } from "../../server/jwtUtils";
+
 const Login = () => {
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
+     e.preventDefault();
 
+     try {
+      const response = await fetch("http://localhost:3000/auth/login", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Berer ${generateToken}`,
+        },
+        body: JSON.stringify(formData),
+      });
+
+      console.log("Response from server:", response);
+
+      if (response.ok) {
+        // Successful login, handle token and redirect here
+        const data = await response.json();
+        console.log("Token: ", data.token);
+      } else {
+        const errorData = await response.json();
+        setError(errorData.message || "Login failed.");
+      }
+     } catch (error) {
+      console.error("Login error:", error);
+      setError("An error occured")
+     }
   }
 
   return (
@@ -17,7 +49,8 @@ const Login = () => {
         <div id="signup-container" className="pr-2">
         <div id="username" className="flex pt-2 space-y-3">
             <input
-              type="email"
+              type="username"
+              onChange={(e) => setUsername(e.target.value)}
               id="email-user"
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Email or Username"
@@ -28,6 +61,7 @@ const Login = () => {
           <input
               type="password"
               id="pass"
+              onChange={(e) => setPassword(e.target.value)}
               className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Password"
               required
