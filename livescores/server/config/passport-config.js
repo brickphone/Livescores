@@ -35,7 +35,7 @@ export default (passport) => {
     "login",
     new LocalStrategy(
       {
-        usernameField: "email",
+        usernameField: "user",
         passwordField: "password",
       },
       async (user, password, done) => {
@@ -61,7 +61,6 @@ export default (passport) => {
   );
 };
 
-// serializing user 
 passport.serializeUser((user, done) => {
   done(null, user.id)
 });

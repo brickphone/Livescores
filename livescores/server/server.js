@@ -35,6 +35,7 @@ app.use(
 
 // ---- end of middleware
 
+// signup
 app.post("/user", async (req, res) => {
   try {
     // check if user or email already exists
@@ -67,9 +68,14 @@ app.post("/user", async (req, res) => {
 
 passportConfig(passport);
 
+// login
 app.post("/auth/login", (req, res, next) => {
+  console.log("Recieved login request:", req.body);
+  
   passport.authenticate("login", (err, user) => {
     if (err) throw err;
+    console.log("User found in the db:", user);
+
     if (!user) {
       res.status(401).json({ message: "No user exists" })
     }

@@ -10,8 +10,6 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      // No need to generate a token here
-
       const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
@@ -81,6 +79,6 @@ const Login = () => {
       </div>
     </form>
   )
-}
+};
 
 export default Login;
