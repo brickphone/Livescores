@@ -1,39 +1,41 @@
 import { useState } from "react";
-import { generateToken } from "../../server/jwtUtils";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [data, setData] = useState(null);
 
   const handleSubmit = async (e) => {
-     e.preventDefault();
+    e.preventDefault();
 
-     try {
+    try {
+      // No need to generate a token here
+
       const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Berer ${generateToken}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
       });
 
       console.log("Response from server:", response);
 
       if (response.ok) {
-        // Successful login, handle token and redirect here
         const data = await response.json();
-        console.log("Token: ", data.token);
+        console.log("Login successful");
       } else {
         const errorData = await response.json();
-        setError(errorData.message || "Login failed.");
+        console.log("Login failed:", error, errorData)
       }
-     } catch (error) {
+    } catch (error) {
       console.error("Login error:", error);
-      setError("An error occured")
-     }
+      setError("An error occurred")
+    }
   }
 
   return (

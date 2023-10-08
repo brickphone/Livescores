@@ -32,19 +32,22 @@ export default (passport) => {
 
   // login stratergy
   passport.use(
-    "local-login",
+    "login",
     new LocalStrategy(
       {
         usernameField: "email",
         passwordField: "password",
       },
-      async (email, password, done) => {
+      async (user, password, done) => {
         try {
-          const user = await UserModel.findOne({ email: email });
-          if (!user) return done(null, false);
-          const isMatch = await user.matchPassword(password);
+          const user = await UserModel.findOne({ username: user });
+          if (!user) {
+            return done(null, false, { message: "User not found" });
+          }
+          
+          const isMatch = await bcrypt.compare(password, user.password);
           if (!isMatch) {
-            return done(null, false);
+            return done(null, false, { message: "Invalid password" });
           }
 
           // If passwords match, return the user

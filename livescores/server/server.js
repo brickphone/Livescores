@@ -7,9 +7,9 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import bcrypt from "bcrypt";
 import passport from "passport";
-import jwt from "jsonwebtoken";
 import passportConfig from "./config/passport-config.js";
-import { generateToken } from "./jwtUtils.js";
+import jwt from "jsonwebtoken"; 
+import { Strategy } from "passport-local";
 
 const app = express();
 const PORT = 3000;
@@ -18,7 +18,7 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// making sure request from client side work
+// making sure requests from the client side work
 app.use(cors({
   origin: "http://localhost:5173",
   credentials: true,
@@ -68,24 +68,21 @@ app.post("/user", async (req, res) => {
 passportConfig(passport);
 
 app.post("/auth/login", (req, res, next) => {
-  passport.authenticate("local-login", { session: false }, (err, user) => {
-    if (err) {
-      return res.status(500).json({ message: "Failed to login" });
-    }
+  passport.authenticate("login", (err, user) => {
+    if (err) throw err;
     if (!user) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      res.status(401).json({ message: "No user exists" })
     }
-
-    // Generate and send a JWT token
-    const token = generateToken(user);
-    res.json({ token });
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.send("Successfully Authenticated");
+        console.log(req.user);
+      });
+    }
   })(req, res, next);
 });
  
-app.post("/auth/login", (req, res, next) => {
-  console.log("recieved login request with email:", req.body.email, "and password", req.body.password);
-})
-
 // starting server
 app.listen(PORT, function(err) {
   if (err) {
@@ -94,4 +91,3 @@ app.listen(PORT, function(err) {
     console.log("Server listening on Port:", PORT)
   }
 })
-

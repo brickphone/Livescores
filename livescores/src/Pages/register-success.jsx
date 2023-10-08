@@ -1,5 +1,12 @@
-const RegisterSuccess = () => {
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
+const RegisterSuccess = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    setTimeout(() => navigate("/login"), 3000)
+  });
+  
   return (
     <div id="error-container" className="font-bold flex flex-col items-center text-center pt-44 space-y-2">
       <div className="flex items-center">
