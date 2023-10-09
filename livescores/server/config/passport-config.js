@@ -36,16 +36,18 @@ export default (passport) => {
     new LocalStrategy(
       {
         usernameField: "user",
-        passwordField: "password",
+        passwordField: "pass",
       },
-      async (user, password, done) => {
+      async (user, pass, done) => {
         try {
-          const user = await UserModel.findOne({ username: user });
-          if (!user) {
+          const foundUser = await UserModel.findOne({ username: user });
+          
+          if (!foundUser) {
             return done(null, false, { message: "User not found" });
           }
           
-          const isMatch = await bcrypt.compare(password, user.password);
+          const isMatch = await bcrypt.compare(pass, foundUser.password);
+          
           if (!isMatch) {
             return done(null, false, { message: "Invalid password" });
           }
@@ -67,7 +69,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await user.findById(id);
+    const user = await UserModel.findById(id);
     done(null, user);
   } catch (err) {
     done(err);
