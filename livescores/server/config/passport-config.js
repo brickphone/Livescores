@@ -46,7 +46,7 @@ export default (passport) => {
             return done(null, false, { message: "User not found" });
           }
           
-          const isMatch = await bcrypt.compare(pass, foundUser.password);
+          const isMatch = await bcrypt.compare(pass, foundUser);
           
           if (!isMatch) {
             return done(null, false, { message: "Invalid password" });
@@ -64,7 +64,7 @@ export default (passport) => {
 };
 
 passport.serializeUser((user, done) => {
-  done(null, user.id)
+  done(null, user)
 });
 
 passport.deserializeUser(async (id, done) => {
