@@ -24,8 +24,9 @@ const Login = () => {
 
       console.log("Response from server:", response);
 
-      if (response === 200) {
+      if (response.ok) {
         console.log("Login successful");
+        
       } else {
         const errorData = await response.json();
         console.log("Login failed:", error, errorData)

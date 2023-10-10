@@ -40,13 +40,16 @@ export default (passport) => {
       },
       async (user, pass, done) => {
         try {
+          // searching for user in db
           const foundUser = await UserModel.findOne({ username: user });
           
           if (!foundUser) {
             return done(null, false, { message: "User not found" });
           }
-          
-          const isMatch = await bcrypt.compare(pass, foundUser);
+    
+          // comnpare user and password 
+          const isMatch = await bcrypt.compare(pass, foundUser.password);
+          console.log("found password in db!", isMatch);
           
           if (!isMatch) {
             return done(null, false, { message: "Invalid password" });
