@@ -1,11 +1,21 @@
+import { set } from "mongoose";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [data, setData] = useState(null);
+  const [incorrect, setIncorrect] = useState(false);
+  const navigate = useNavigate();
+
+  // resetting password / user field
+  const inputSelect = async (e) => {
+    e.preventDefault();
+
+    setIncorrect(false);
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,10 +36,13 @@ const Login = () => {
 
       if (response.ok) {
         console.log("Login successful");
-        
+        navigate("/login/success");
       } else {
         const errorData = await response.json();
         console.log("Login failed:", error, errorData)
+        
+        // display input field as "incorrect"
+        setIncorrect(true);
       }
     } catch (error) {
       console.error("Login error:", error);
@@ -58,15 +71,36 @@ const Login = () => {
               required
             />
           </div>
-          <div id="password" className="flex items-center pt-2">
-          <input
-              type="password"
-              id="pass"
-              onChange={(e) => setPassword(e.target.value)}
-              className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Password"
-              required
-            />
+          <div id="password" className="flex flex-col items-center pt-2">
+              {incorrect === true ? (
+                <>
+                  <div>
+                    <input
+                      type="password"
+                      id="pass"
+                      onChange={(e) => setPassword(e.target.value)}
+                      onClick={inputSelect}
+                      className="border border-red-500 text-red-500 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                      placeholder="Password"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <p className="mt-2 text-sm text-red-600 dark:text-red-500">
+                      <span className="font-medium">Incorrect password</span> 
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <input
+                  type="password"
+                  id="pass"
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-80 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Password"
+                  required
+                />
+              )}
           </div>
             <button 
             type="submit" 
@@ -77,9 +111,9 @@ const Login = () => {
             </h2>
         </div>
         <div id="or" className="flex items-center pt-6">
-          <hr className="flex-grow border-t border-gray-400" />
-          <h2 className="px-4">Or</h2>
-          <hr className="flex-grow border-t border-black-400" /> 
+          <div className="flex-grow border-t border-gray-400"></div>
+            <h2 className="px-4">Or</h2>
+          <div className="flex-grow border-t border-gray-400"></div>
         </div>
       </div>
     </form>

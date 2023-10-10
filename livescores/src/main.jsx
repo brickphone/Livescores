@@ -7,6 +7,8 @@ import ErrorPage from "./Pages/error-page.jsx";
 import Signup from './Pages/signup.jsx';
 import Login from './Pages/login.jsx';
 import RegisterSucess from "./Pages/register-success.jsx"
+import loginSuccess from './Pages/login-sucess.jsx';
+import LoginSuccess from './Pages/login-sucess.jsx';
 
 const router = createBrowserRouter([
   {
@@ -30,9 +32,14 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/success",
+    path: "/register/success",
     element: <RegisterSucess />
   },
+  
+  {
+    path: "/login/success",
+    element: <LoginSuccess />
+  }
   
 ])
 

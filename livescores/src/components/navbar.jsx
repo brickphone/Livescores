@@ -75,7 +75,7 @@ const Navbar = () => {
         <div className="sidebar-button-container">
           <FaBars className="sidebar-button text-xl" onClick={toggleSidebar} />
         </div>
-        <div id="name-container flex">
+        <div className="name-container flex pl-6">
           <h1 className="font-bold text-xl">LIVESCORE</h1>
           <span id="football-emoji">⚽</span>
         </div>
