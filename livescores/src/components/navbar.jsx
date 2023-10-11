@@ -9,7 +9,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const sidebarRef = useRef(null) // outside click reference point
+  const sidebarRef = useRef(null); // outside click reference point
   const navigate = useNavigate();
 
   const toggleSidebar = (event) => {

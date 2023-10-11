@@ -82,8 +82,15 @@ app.post("/auth/login", (req, res, next) => {
     else {
       req.logIn(user, (err) => {
         if (err) throw err;
-        res.send("Successfully Authenticated");
-        console.log(req.user);
+        
+        console.log("req.user:", req.user);
+
+        const token = jwt.sign({ user: user.username }, "secretkey", {
+          expiresIn: '1h'
+        });
+
+        res.status(200).json({ message: "Successfully Authenticated", token: token });
+        console.log(req.headers.authorization);
       });
     }
   })(req, res, next);

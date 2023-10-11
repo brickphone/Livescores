@@ -1,5 +1,5 @@
 import { set } from "mongoose";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
@@ -20,11 +20,15 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Getting token from localstorage
+    const token = localStorage.getItem("token");
+
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           user: username,
@@ -36,7 +40,12 @@ const Login = () => {
 
       if (response.ok) {
         console.log("Login successful");
-        navigate("/login/success");
+
+        const data = await response.json();
+        const token = data.token;
+        // store locally
+        localStorage.setItem("token", token);
+        navigate(`/login/success?token=${token}`);
       } else {
         const errorData = await response.json();
         console.log("Login failed:", error, errorData)
