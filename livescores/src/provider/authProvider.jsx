@@ -1,0 +1,46 @@
+import axios from "axios";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+
+const AuthContext = createContext();
+
+const AuthProvider = ({ children }) => {
+  const [token, setToken_] = useState(localStorage.getItem("token"));
+
+  // updating auth token with new token value
+  const setToken = (newToken) => {
+    setToken_(newToken);
+  };
+
+  // set default auth header in axios + stores token in localstorage
+  useEffect(() => {
+    if (token) {
+      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      localStorage.setItem("token", token);
+    } else {
+      delete axios.defaults.headers.common["Authorization"];
+      localStorage.removeItem("token");
+    }
+  }, [token]);
+
+  // create memorized context
+  const contextValue = useMemo(
+    () => ({
+      token, 
+      setToken,
+    }),
+    [token]
+  );
+
+  return (
+    <AuthContext.Provider value={contextValue}>
+      {children}
+    </AuthContext.Provider>
+  )
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
+export default AuthProvider;
+

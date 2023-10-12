@@ -96,6 +96,20 @@ app.post("/auth/login", (req, res, next) => {
   })(req, res, next);
 });
  
+// logout
+app.post("/logout", (req, res, next) => {
+  console.log("recived logout request", req.body)
+
+  try {
+    req.logOut((err) => {
+      if (err) { return next(err); }
+      res.redirect("/");
+    });
+  } catch (err) {
+    console.error(err);
+  }
+});
+
 // starting server
 app.listen(PORT, function(err) {
   if (err) {

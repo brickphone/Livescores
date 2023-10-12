@@ -6,11 +6,13 @@ import Switch from '@mui/material/Switch';
 import { MdOutlineDarkMode } from "react-icons/md";
 import { AiOutlineQuestionCircle } from "react-icons/ai"
 import { Navigate, useNavigate } from "react-router-dom";
+import { useAuth } from "../provider/authProvider";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const sidebarRef = useRef(null); // outside click reference point
   const navigate = useNavigate();
+  const { token } = useAuth();
 
   const toggleSidebar = (event) => {
     event.stopPropagation(); // prevent sidebar from not opening
@@ -80,7 +82,11 @@ const Navbar = () => {
           <span id="football-emoji">⚽</span>
         </div>
         <div className="flex">
-          <button onClick={() => {navigate("/signup")}} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Sign Up</button>
+          {!token ? (
+            <button onClick={() => {navigate("/signup")}} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Sign Up</button>
+
+            ) : <button onClick={() => {navigate("/logout")}} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Log Out</button>
+          }
         </div>
       </div>
 
