@@ -86,27 +86,27 @@ app.post("/auth/login", (req, res, next) => {
         console.log("req.user:", req.user);
 
         const token = jwt.sign({ user: user.username }, "secretkey", {
-          expiresIn: '1h'
+          expiresIn: '10min'
         });
+        console.log("Token:", token);
 
         res.status(200).json({ message: "Successfully Authenticated", token: token });
-        console.log(req.headers.authorization);
+        console.log("Successfully authenticated:", req.headers.authorization);
       });
     }
   })(req, res, next);
 });
  
 // logout
-app.post("/logout", (req, res, next) => {
-  console.log("recived logout request", req.body)
+app.post("/logout", (req, res) => {
 
   try {
-    req.logOut((err) => {
-      if (err) { return next(err); }
-      res.redirect("/");
-    });
-  } catch (err) {
-    console.error(err);
+    // clear session data 
+    req.session.destroy();
+    res.status(200).send("Logout successful");
+  } catch (error) {
+    console.error("error during logout:", error);
+    res.status(500).send("error during logout");
   }
 });
 

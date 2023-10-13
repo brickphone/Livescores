@@ -7,6 +7,7 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { AiOutlineQuestionCircle } from "react-icons/ai"
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
+import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,13 +51,18 @@ const Navbar = () => {
     boxShadow: isOpen ? "-10px 0px 10px rgba(0, 0, 0, 0.2)" : "none",
   };
   
-  const handleLogout = () => {
-    setToken(null);
+  const handleLogout = async () => {
     
-    if (token === null) {
-      navigate("/logout/success", { replace: true })
-    } else {
-      console.log("Could not logout, token:", token);
+    try {
+      const response = await axios("http://localhost:3000/logout", { method: "POST" });
+      localStorage.removeItem("token");
+
+      navigate("/logout/success");
+
+      const message = response.data;
+      console.log("Response message:", message);
+    } catch (error) {
+      console.error("There has been an error with the logout", error);
     }
   };
 
