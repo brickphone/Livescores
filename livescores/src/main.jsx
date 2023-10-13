@@ -8,6 +8,7 @@ import Signup from './Pages/signup.jsx';
 import Login from './Pages/login.jsx';
 import RegisterSucess from "./Pages/register-success.jsx";
 import LoginSuccess from './Pages/login-sucess.jsx';
+import LogoutSuccess from './Pages/logout-success.jsx';
 
 const router = createBrowserRouter([
   {
@@ -38,9 +39,14 @@ const router = createBrowserRouter([
   {
     path: "/login/success",
     element: <LoginSuccess />
-  }
+  },
+
+  {
+    path: "/logout/success",
+    element: <LogoutSuccess />
+  },
   
-])
+]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

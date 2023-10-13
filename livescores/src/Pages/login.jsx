@@ -121,7 +121,7 @@ const Login = () => {
         </div>
         <div id="or" className="flex items-center pt-6">
           <div className="flex-grow border-t border-gray-400"></div>
-            <h2 className="px-4">Or</h2>
+            <h2 className="px-4">Or login with</h2>
           <div className="flex-grow border-t border-gray-400"></div>
         </div>
       </div>

@@ -98,7 +98,7 @@ const Signup = () => {
         </div>
         <div id="or" className="flex items-center pt-6">
           <hr className="flex-grow border-t border-gray-400" />
-          <h2 className="px-4">Or</h2>
+          <h2 className="px-4">Or sign up with</h2>
           <hr className="flex-grow border-t border-black-400" /> 
         </div>
       </div>
