@@ -2,6 +2,7 @@ import passport from "passport";
 import UserModel from "../database/models/user.js";
 import bcrypt from "bcrypt";
 import { Strategy as LocalStrategy } from "passport-local";
+import GoogleStrategy from "passport-google-oauth2";
 
 export default (passport) => {
   // signup stratergy
@@ -64,7 +65,28 @@ export default (passport) => {
       }
     )
   );
+
+  const GOOGLE_CLIENT_ID = "880754032048-6giud73ubfhqnmph4jp75fs2t5gkpla6.apps.googleusercontent.com";
+  const GOOGLE_CLIENT_SECRET = "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";
+
+  // google strategy
+  passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: "http://localhost:3000/auth/google/callback",
+    passReqToCallback: true,
+  },
+  
+  function (accessToken, refreshToken, profile, callback) {
+    UserModel.findOrCreate({ googleId: profile.id }, function (err, user) {
+      return callback(err, user);
+    });
+  }
+));
+
 };
+
+
 
 passport.serializeUser((user, done) => {
   done(null, user)

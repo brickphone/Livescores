@@ -33,6 +33,10 @@ app.use(
   })
 );
 
+// initialize passport 
+app.use(passport.initialize());
+app.use(passport.session());
+
 // ---- end of middleware
 
 // signup
@@ -96,7 +100,23 @@ app.post("/auth/login", (req, res, next) => {
     }
   })(req, res, next);
 });
+
+// Google authentication route
+app.get("/auth/google", (req, res, next) => {
+  console.log("Google authentication route hit!");
+  passport.authenticate("google", { scope: ["profile", "email"] }) (req,res, next);
+});
+
+// google callback route
+app.get("/auth/google/callback", (req, res, next) => {
+  console.log("Google callback route hit.");
+  passport.authenticate("google", { failureRedirect: "/" }, function (req, res) {
+    // Successful authentication, redirect or respond as needed
+    res.redirect("/");
+  })(req, res, next);
+});
  
+
 // logout
 app.post("/logout", (req, res) => {
 
