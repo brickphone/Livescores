@@ -9,8 +9,8 @@ const App = () => {
   return (
       <div>
         <AuthProvider>
-          <Navbar/>
-          <Fixtures />
+            <Navbar/>
+            <Fixtures />
         </AuthProvider>
       </div>
   )

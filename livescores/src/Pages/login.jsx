@@ -58,10 +58,6 @@ const Login = () => {
     }
   }
 
-  const handleGoogle = async () => {
-    window.location.href = "http://localhost:3000/auth/google";
-  };
-
   return (
     <div id="create-account" className="flex flex-col items-center pt-12">
       <div id="signup-text" className="pr-24">
@@ -125,24 +121,6 @@ const Login = () => {
           <Link to="/signup" style={{ color: 'blue' }}> Sign Up</Link>
         </h2>
       </div>
-      <div id="or" className="flex items-center pt-2">
-        <div className="flex-grow border-t border-gray-400"></div>
-        <h2 className="px-4">Or login with</h2>
-        <div className="flex-grow border-t border-gray-400"></div>
-      </div>
-      <form method="post" className="pt-4" onSubmit={handleGoogle}>
-        <button
-          className="px-4 py-2 border flex gap-2 border-slate-200 rounded-lg text-slate-700 hover:border-slate-400 hover:text-slate-900 hover:shadow transition duration-150"
-        >
-          <img
-            className="w-6 h-6"
-            src="https://www.svgrepo.com/show/475656/google-color.svg"
-            loading="lazy"
-            alt="google logo"
-          />
-          <span>Continue with Google</span>
-        </button>
-      </form>
     </div>
   );
 };

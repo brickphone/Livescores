@@ -78,7 +78,7 @@ export default (passport) => {
   },
   
   function (accessToken, refreshToken, profile, callback) {
-    UserModel.findOrCreate({ googleId: profile.id }, function (err, user) {
+    UserModel.findOne({ googleId: profile.id }, async function (err, user) {
       return callback(err, user);
     });
   }
