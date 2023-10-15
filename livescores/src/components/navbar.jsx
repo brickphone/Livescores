@@ -8,6 +8,7 @@ import { AiOutlineQuestionCircle } from "react-icons/ai"
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
 import axios from "axios";
+import ProfileCard from "./profileCard"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +16,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { token } = useAuth();
   const { setToken } = useAuth();
+  const [isProfileOpen, setProfileOpen] = useState(false);
 
   const toggleSidebar = (event) => {
     event.stopPropagation(); // prevent sidebar from not opening
@@ -102,7 +104,7 @@ const Navbar = () => {
           {!token ? (
             <button onClick={() => {navigate("/login")}} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Login</button>
 
-            ) : <button onClick={handleLogout} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Log Out</button>
+            ) :  <button onClick={() => handleLogout()} type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Log out</button>
           }
         </div>
       </div>

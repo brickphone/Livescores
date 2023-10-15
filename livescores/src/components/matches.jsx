@@ -4,9 +4,15 @@ import { useState } from 'react';
 /* eslint-disable react/prop-types */
 const Matches = (props) => {
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    console.log("Working click")
+    setIsOpen(true);
+  }
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center" onClick={openModal}>
       <div className="flex flex-col items-start justify-center league-container px-16 hover:bg-slate-100" id="teams" style={{ position: 'relative' }}>
         <div className="is-live flex pr-2 absolute" id="red-box" style={{ left: '0' }}>
             {
