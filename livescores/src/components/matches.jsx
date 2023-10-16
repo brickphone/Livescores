@@ -1,18 +1,53 @@
 import Skeleton from '@mui/material/Skeleton'
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
 
 /* eslint-disable react/prop-types */
 const Matches = (props) => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const modalRef = useRef(null);
 
-  const openModal = () => {
-    console.log("Working click")
+  const openModal = (event) => {
+    console.log("opening modal");
+    
     setIsOpen(true);
-  }
+  };
+
+  const closeModal = (event) => {
+    if (!modalRef.current.contains(event.target)) {
+      console.log("closing modal");
+      setIsOpen(false);
+    }
+  };
+
+// event listener for closing the modal
+useEffect(() => {
+  document.addEventListener("click", closeModal);
+
+  return () => {
+    document.removeEventListener("click", closeModal);
+  };
+}, []);
+
+  
+const modalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  borderRadius: 4,
+  boxShadow: 24,
+  p: 4,
+};
 
   return (
-    <div className="flex items-center justify-center" onClick={openModal}>
+    <div className="flex items-center justify-center" onClick={openModal} ref={modalRef}>
       <div className="flex flex-col items-start justify-center league-container px-16 hover:bg-slate-100" id="teams" style={{ position: 'relative' }}>
         <div className="is-live flex pr-2 absolute" id="red-box" style={{ left: '0' }}>
             {
@@ -44,6 +79,16 @@ const Matches = (props) => {
           }
         </div>
       </div>
+      <Modal open={isOpen} onClose={closeModal}>
+        <Box sx={modalStyle}>
+        <Typography id="modal-modal-title" variant="h6" component="h2">
+            Text in a modal
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+          </Typography>
+        </Box>
+      </Modal>
     </div>
   );
 };

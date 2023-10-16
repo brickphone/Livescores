@@ -8,7 +8,6 @@ import { AiOutlineQuestionCircle } from "react-icons/ai"
 import { Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../provider/authProvider";
 import axios from "axios";
-import ProfileCard from "./profileCard"
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
