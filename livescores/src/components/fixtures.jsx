@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Dates from './date';
 import League from './league';
 import Matches from './matches';
-import { fetchFixtures, saveLocal, getLocal } from '../api';
+import { fetchFixtures, saveLocal, getLocal } from '../apiFetch';
 import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';

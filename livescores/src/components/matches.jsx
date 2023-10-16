@@ -42,7 +42,7 @@ const modalStyle = {
   width: 400,
   bgcolor: 'background.paper',
   borderRadius: 4,
-  boxShadow: 24,
+  boxShadow: 4,
   p: 4,
 };
 
@@ -81,12 +81,31 @@ const modalStyle = {
       </div>
       <Modal open={isOpen} onClose={closeModal}>
         <Box sx={modalStyle}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+        <div className=" flex justify-between items-center" id="hometeam">
+          {
+            (props.homeLogo === undefined)
+            ? <Skeleton variant='circular' width={40} height={40}></Skeleton>
+            : <img className="w-18 h-18 flex-none" src={props.homeLogo}></img>
+          }
+          <h2 className="pl-2 font-semibold w-32 text-left">{props.homeName}</h2>
+          { // This should be removed / changed
+            (props.homeScore < 1) 
+            ? <h2 className="font-bold w-12 text-right" id="homescore">{props.homeScore}</h2>
+            : <h2 className="font-bold w-12 text-right text-green-600" id="homescore">{props.homeScore}</h2>
+          }
+        </div>
+        <div className="flex justify-between items-center pt-1 " id="awayteam">
+          <img className="w-18 h-18 flex-none" src={props.awayLogo}></img>
+          <h2 className="pl-2 font-semibold w-32 text-left">{props.awayName}</h2>
+          { 
+            (props.awayScore > props.homeScore) 
+            ? <h2 className="font-bold w-12 text-right text-green-600" id="awayscore">{props.awayScore}</h2>
+            : <h2 className="font-bold w-12 text-right " id="awayscore">{props.awayScore}</h2>
+          }
+        </div>
+        <div className='flex justify-center pr-12 pt-4'>
+          <h1 className='font-bold'>Summary</h1>
+        </div>
         </Box>
       </Modal>
     </div>
