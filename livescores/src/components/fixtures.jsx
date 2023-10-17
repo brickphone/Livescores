@@ -10,6 +10,7 @@ import Skeleton from '@mui/material/Skeleton';
 const Fixtures = () => {
   const [fixtures, setFixtures] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [events, setEvents] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -92,6 +93,8 @@ const Fixtures = () => {
               homeScore={match.goals.home}
               awayScore={match.goals.away}
               matchTime={match.fixture.status.elapsed}
+              scoreTime={match.events?.[0]?.time.elapsed}
+              events={match.events || []}
             />
           </div>
         ))
