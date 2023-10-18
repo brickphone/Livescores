@@ -114,7 +114,7 @@ const Matches = (props) => {
                     <img className="w-18 h-18" src={event.team.logo} />
                     <h2 className='font-semibold' id='team'>{event.team.name}</h2>
                   </div>
-                  <div id="score-events" className="flex flex-col">
+                  <div id="score-events" className="flex flex-col mb-2">
                     <div id="time-and-event" className="flex items-center space-x-1">
                       <h2 id="scoretime" className="font-semibold">
                         {event.time.elapsed}'
@@ -127,7 +127,7 @@ const Matches = (props) => {
                       {event.type === "subst" && <span>🔄</span>}
                     </div>
                   </div>
-                  <Divider sx={{ mt: 0, mr: 0 }} />
+                  <Divider sx={{ mt: 0, mr: 0, }} />
                 </div>
               ))}
             </div>
