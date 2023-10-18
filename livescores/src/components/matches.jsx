@@ -75,7 +75,7 @@ const Matches = (props) => {
             {props.homeLogo === undefined ? (
               <Skeleton variant="circular" width={40} height={40}></Skeleton>
             ) : (
-              <img className="w-18 h-18 flex-none" src={props.homeLogo} alt="Home Logo" />
+              <img className="w-18 h-18 flex-none" src={props.homeLogo} />
             )}
             <h2 className="pl-2 font-semibold w-32 text-left">{props.homeName}</h2>
             {props.homeScore < 1 ? (
@@ -111,7 +111,7 @@ const Matches = (props) => {
               {props.events.map((event, index) => (
                 <div id="events-container" className="pt-2" key={index}>
                   <div id="team-and-player" className="flex items-center space-x-1">
-                    <img className="w-18 h-18" src={event.team.logo} alt="Team Logo" />
+                    <img className="w-18 h-18" src={event.team.logo} />
                     <h2 className='font-semibold' id='team'>{event.team.name}</h2>
                   </div>
                   <div id="score-events" className="flex flex-col">
