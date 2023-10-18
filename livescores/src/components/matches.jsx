@@ -111,18 +111,23 @@ const Matches = (props) => {
               {props.events.map((event, index) => (
                 <div id="events-container" className="pt-2" key={index}>
                   <div id="team-and-player" className="flex items-center space-x-1">
-                    <img className="w-18 h-18 flex-none" src={event.team.logo} alt="Team Logo" />
-                    <h2>{event.team.name}</h2>
+                    <img className="w-18 h-18" src={event.team.logo} alt="Team Logo" />
+                    <h2 className='font-semibold' id='team'>{event.team.name}</h2>
                   </div>
                   <div id="score-events" className="flex flex-col">
                     <div id="time-and-event" className="flex items-center space-x-1">
                       <h2 id="scoretime" className="font-semibold">
-                        {event.team.time}'
+                        {event.time.elapsed}'
                       </h2>
                       <h2>{event.player.name}</h2>
-                      <BiFootball className="text-xl" />
+                      {/* Conditionally render different icons based on event type */}
+                      {event.type === "Goal" && <span>⚽</span>}
+                      {event.type.detail === "Yellow Card" && <span>🟨</span>}
+                      {event.type.detail === "Red Card" && <span>🟥</span>}
+                      {event.type === "subst" && <span>🔄</span>}
                     </div>
                   </div>
+                  <Divider sx={{ mt: 0, mr: 0 }} />
                 </div>
               ))}
             </div>
