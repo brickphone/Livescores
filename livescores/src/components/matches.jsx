@@ -122,8 +122,8 @@ const Matches = (props) => {
                       <h2>{event.player.name}</h2>
                       {/* Conditionally render different icons based on event type */}
                       {event.type === "Goal" && <span>⚽</span>}
-                      {event.type.detail === "Yellow Card" && <span>🟨</span>}
-                      {event.type.detail === "Red Card" && <span>🟥</span>}
+                      {event.detail === "Yellow Card" && <span>🟨</span>}
+                      {event.detail === "Red Card" && <span>🟥</span>}
                       {event.type === "subst" && <span>🔄</span>}
                     </div>
                   </div>
@@ -134,7 +134,6 @@ const Matches = (props) => {
           ) : (
             <p>No event available</p>
           )}
-          <Divider sx={{ mt: 2, mr: 0 }} />
         </Box>
       </Modal>
     </div>
