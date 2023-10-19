@@ -10,6 +10,8 @@ import passport from "passport";
 import passportConfig from "./config/passport-config.js";
 import jwt from "jsonwebtoken"; 
 import { Strategy } from "passport-local";
+import CommentModel from "./database/models/comment.js";
+import LikeModel from "./database/models/like.js"
 
 const app = express();
 const PORT = 3000;
@@ -127,6 +129,37 @@ app.post("/logout", (req, res) => {
   } catch (error) {
     console.error("error during logout:", error);
     res.status(500).send("error during logout");
+  }
+});
+
+
+// Add a comment
+app.post("/comments", async (req, res) => {
+  try {
+    const { event, text } = req.body;
+    const user = req.user;
+
+    const comment = new CommentModel({ event, user, text });
+    await comment.save();
+    res.send(comment);
+  } catch (error) {
+    console.error("comment error:", error);
+    res.status(500).send(error);
+  }
+});
+
+// Add a like
+app.post("likes", async (req, res) => {
+  try {
+    const { event } = req.body;
+    const user = req.user;
+    
+    const like = new LikeModel({ event, user });
+    await like.save();
+    res.send(like);
+  } catch (error) {
+    console.error("Like error:", error);
+    res.status(500).send(error);
   }
 });
 
