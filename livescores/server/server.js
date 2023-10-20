@@ -149,7 +149,7 @@ app.post("/comments", async (req, res) => {
 });
 
 // Add a like
-app.post("likes", async (req, res) => {
+app.post("/likes", async (req, res) => {
   try {
     const { event } = req.body;
     const user = req.user;

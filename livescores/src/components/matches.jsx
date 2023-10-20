@@ -4,21 +4,36 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Divider from '@mui/material/Divider';
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
-import { HiOutlineChatBubbleOvalLeft, HiChatBubbleOvalLeft } from "react-icons/hi2"
+import { HiOutlineChatBubbleOvalLeft } from "react-icons/hi2"
 
 /* eslint-disable react/prop-types */
 const Matches = (props) => {
   const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
-  const [comment, setComments] = useState([]);
-  const [like, setLikes] = useState([]);
+  const [comments, setComments] = useState(0);
+  const [likes, setLikes] = useState(0);
   const [fillHeart, setFillHeart] = useState(false);
 
-  const blackHeart = () => {
-    console.log("clicking heart")
-    setFillHeart(true);
+  // clicking the heart/like
+  const heartClick = () => {
+    setFillHeart(!fillHeart);
+
+    setLikes((prevLikes) => prevLikes + 1);
+
+    // send data to server
+    sendLikeToServer();
   };
+
+  const heartUnclick = () => {
+    setFillHeart(!fillHeart);
+
+    setLikes((prevLikes) => prevLikes - 1);
+
+    // send data to server
+    sendLikeToServer();
+  };
+
 
   // opening the match modal
   const openModal = () => {
@@ -26,6 +41,7 @@ const Matches = (props) => {
     setIsOpen(true);
   };
 
+  // closing modal
   const closeModal = (event) => {
     if (!modalRef.current.contains(event.target)) {
       console.log('closing modal');
@@ -42,6 +58,7 @@ const Matches = (props) => {
     };
   }, []);
 
+  // style for the modal
   const modalStyle = {
     position: 'absolute',
     top: '50%',
@@ -52,6 +69,31 @@ const Matches = (props) => {
     borderRadius: 4,
     boxShadow: 4,
     p: 4,
+  };
+
+  // like req to server
+  const sendLikeToServer = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/likes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          event: props.eventData,
+          user: props.userData,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("like saved")
+      } else {
+        console.error("error saving like:");
+      };
+
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
 
   return (
@@ -80,15 +122,12 @@ const Matches = (props) => {
         </div>
         <div id='likes-comments' className='mt-auto flex-row flex items-center space-x-32'>
           <div id='likes' className='flex items-center'>
-            {fillHeart === true ? (
-              <AiOutlineHeart onClick={blackHeart} className='text-xl'/>
-            ) : <AiFillHeart />
-          }
-            <h2>1</h2>
+            {fillHeart ? <AiFillHeart onClick={heartUnclick} className='text-xl'/> : <AiOutlineHeart onClick={heartClick} className='text-xl'/>}
+            <h2>{likes}</h2>
           </div>
           <div id='comments' className='flex items-center'>
             <HiOutlineChatBubbleOvalLeft className='text-xl'/>
-            <h2>1</h2>
+            <h2>{comments}</h2>
           </div>
         </div>
       </div>
