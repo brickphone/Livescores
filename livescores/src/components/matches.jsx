@@ -5,24 +5,29 @@ import Modal from '@mui/material/Modal';
 import Divider from '@mui/material/Divider';
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 import { HiOutlineChatBubbleOvalLeft } from "react-icons/hi2"
+import { useAuth } from '../provider/authProvider';
 
 /* eslint-disable react/prop-types */
 const Matches = (props) => {
-  const [loading, setLoading] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const modalRef = useRef(null);
   const [comments, setComments] = useState(0);
   const [likes, setLikes] = useState(0);
   const [fillHeart, setFillHeart] = useState(false);
+  const { token } = useAuth();
+  const [likeMessage, setLikeMessage] = useState("")
 
   // clicking the heart/like
   const heartClick = () => {
-    setFillHeart(!fillHeart);
+    if (!token) {
+      setLikeMessage("Login to like!")
+    } else {
+      setFillHeart(!fillHeart);
+      setLikes((prevLikes) => prevLikes + 1);
 
-    setLikes((prevLikes) => prevLikes + 1);
-
-    // send data to server
-    sendLikeToServer();
+      // send data to server
+      sendLikeToServer();
+    }
   };
 
   const heartUnclick = () => {
@@ -89,7 +94,7 @@ const Matches = (props) => {
         console.log("like saved")
       } else {
         console.error("error saving like:");
-      };
+      }
 
     } catch (error) {
       console.error("Network error:", error);

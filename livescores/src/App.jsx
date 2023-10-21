@@ -1,7 +1,6 @@
 import './index.css'
 import Fixtures from './components/fixtures';
 import Navbar from '../src/components/navbar';
-import { useEffect, useState } from 'react';
 import AuthProvider from './provider/authProvider';
 
 const App = () => {
