@@ -12,6 +12,7 @@ const Fixtures = () => {
   const [fixtures, setFixtures] = useState([]);
   const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState([]);
+  const [likeMessage, setLikeMessage] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +60,7 @@ const Fixtures = () => {
   return (
     <main>
       <Dates />
-      <LikeMessage />
+      <LikeMessage message={likeMessage}/>
       <div className='flex items-center justify-center pt-4'>
         <button onClick={fetchData} type="button" 
         className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Refresh Data</button>
@@ -97,6 +98,7 @@ const Fixtures = () => {
               matchTime={match.fixture.status.elapsed}
               scoreTime={match.events?.[0]?.time.elapsed}
               events={match.events || []}
+              setLikeMessage={setLikeMessage}
             />
           </div>
         ))

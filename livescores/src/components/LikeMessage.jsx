@@ -1,14 +1,17 @@
 import { Alert } from '@mui/material';
 import { useState, useEffect } from 'react';
 
-const LikeMessage = ({ message }) => {
+// eslint-disable-next-line react/prop-types
+const LikeMessage = ({ message, severity }) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (message) {
+      setShow(true);
+      
       const timer = setTimeout(() => {
         setShow(false);
-      }, 3000)
+      }, 6000)
 
       return () => {
         clearTimeout(timer);
@@ -18,7 +21,7 @@ const LikeMessage = ({ message }) => {
 
   return (
     <div id='message-container' className='flex items-center justify-center'>
-      <Alert severity='error'>Please login to like / comment</Alert>
+       {show && <Alert severity="error">{message}</Alert>}
     </div>
   )
 }

@@ -15,12 +15,11 @@ const Matches = (props) => {
   const [likes, setLikes] = useState(0);
   const [fillHeart, setFillHeart] = useState(false);
   const { token } = useAuth();
-  const [likeMessage, setLikeMessage] = useState("")
 
   // clicking the heart/like
   const heartClick = () => {
     if (!token) {
-      setLikeMessage("Login to like!")
+      props.setLikeMessage("Login to like!")
     } else {
       setFillHeart(!fillHeart);
       setLikes((prevLikes) => prevLikes + 1);
@@ -127,7 +126,7 @@ const Matches = (props) => {
         </div>
         <div id='likes-comments' className='mt-auto flex-row flex items-center space-x-32'>
           <div id='likes' className='flex items-center'>
-            {fillHeart ? <AiFillHeart onClick={heartUnclick} className='text-xl'/> : <AiOutlineHeart onClick={heartClick} className='text-xl'/>}
+            {fillHeart ? <AiFillHeart onClick={heartUnclick} className='text-xl'/> : <AiOutlineHeart onClick={() => { heartClick(); props.setLikeMessage("Please login to like"); }} className='text-xl'/>}
             <h2>{likes}</h2>
           </div>
           <div id='comments' className='flex items-center'>
