@@ -126,7 +126,14 @@ const Matches = (props) => {
         </div>
         <div id='likes-comments' className='mt-auto flex-row flex items-center space-x-32'>
           <div id='likes' className='flex items-center'>
-            {fillHeart ? <AiFillHeart onClick={heartUnclick} className='text-xl'/> : <AiOutlineHeart onClick={() => { heartClick(); props.setLikeMessage("Please login to like"); }} className='text-xl'/>}
+            {fillHeart ? <AiFillHeart onClick={heartUnclick} className='text-xl'/> : <AiOutlineHeart onClick={() => {
+              if (!token) {
+                props.setLikeMessage("Please login to like"); // If not logged in
+              } else {
+                props.setLikeMessage(""); // Clear like message
+                heartClick();
+              }
+            }} className='text-xl'/>}
             <h2>{likes}</h2>
           </div>
           <div id='comments' className='flex items-center'>

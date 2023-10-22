@@ -2,7 +2,7 @@ import { Alert } from '@mui/material';
 import { useState, useEffect } from 'react';
 
 // eslint-disable-next-line react/prop-types
-const LikeMessage = ({ message, severity }) => {
+const LikeMessage = ({ message, }) => {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
