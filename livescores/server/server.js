@@ -151,14 +151,25 @@ app.post("/comments", async (req, res) => {
 // Add a like
 app.post("/likes", async (req, res) => {
   try {
-    const { event } = req.body;
-    const user = req.user;
+    const { matchId } = req.body;
     
-    const like = new LikeModel({ event, user });
+    const like = new LikeModel({ matchId });
+    
     await like.save();
     res.send(like);
   } catch (error) {
     console.error("Like error:", error);
+    res.status(500).send(error);
+  }
+});
+
+app.get("/likes/:matchId", async (req, res) => {
+  const { matchId } = req.params;
+  try {
+    const likes = await LikeModel.find({ matchId });
+    res.send(likes);
+  } catch (error) {
+    console.error("Error fetching likes:", error);
     res.status(500).send(error);
   }
 });

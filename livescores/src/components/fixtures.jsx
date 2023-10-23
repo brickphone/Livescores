@@ -89,6 +89,7 @@ const Fixtures = () => {
             />
             <Matches
               key={match.fixture.id}
+              matchId={match.fixture.id}
               homeName={match.teams.home.name}
               homeLogo={match.teams.home.logo}
               awayName={match.teams.away.name}

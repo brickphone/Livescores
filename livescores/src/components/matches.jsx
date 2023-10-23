@@ -77,6 +77,7 @@ const Matches = (props) => {
 
   // like req to server
   const sendLikeToServer = async () => {
+    const matchId = props.matchId
     try {
       const response = await fetch("http://localhost:3000/likes", {
         method: "POST",
@@ -84,8 +85,7 @@ const Matches = (props) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          event: props.eventData,
-          user: props.userData,
+          matchId,
         }),
       });
 
@@ -99,6 +99,26 @@ const Matches = (props) => {
       console.error("Network error:", error);
     }
   };
+
+  // fetch likes for matches
+  useEffect(() => {
+    const fetchLikes = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/likes/${props.matchId}`)
+        if (response.ok) {
+          const likesData = await response.json();
+          setLikes(likesData.likes);
+        } else {
+          console.error("Failed to fetch likes")
+        }
+      } catch (error) {
+        console.error("server error:", error);
+      } 
+    };
+
+    // make sure props.matchId is not undefined
+    props.matchId && fetchLikes();
+  },[props.matchId]);
 
   return (
     <div className="flex items-center justify-center" onClick={openModal} ref={modalRef}>
