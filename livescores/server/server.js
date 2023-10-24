@@ -153,10 +153,21 @@ app.post("/likes", async (req, res) => {
   try {
     const { matchId } = req.body;
     
-    const like = new LikeModel({ matchId });
-    
-    await like.save();
-    res.send(like);
+    // check if like document already exists for the match
+    const existingLike = await LikeModel.findOne({ matchId })
+
+    if (existingLike) {
+      // if exists, increament like count
+      existingLike.likeCount += 1;
+      await existingLike.save();
+      res.send(existingLike);
+    } else {
+      // if doesn't exist, create new one
+      const like = new LikeModel({ matchId, likeCount: 1 });
+      await like.save();
+      res.send(like);
+    }
+
   } catch (error) {
     console.error("Like error:", error);
     res.status(500).send(error);

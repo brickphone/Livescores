@@ -107,7 +107,11 @@ const Matches = (props) => {
         const response = await fetch(`http://localhost:3000/likes/${props.matchId}`)
         if (response.ok) {
           const likesData = await response.json();
-          setLikes(likesData.likes);
+          if (likesData.likes !== undefined) {
+            setLikes(likesData.likes);
+          } else {
+            setLikes(0);
+          }
         } else {
           console.error("Failed to fetch likes")
         }
@@ -116,8 +120,7 @@ const Matches = (props) => {
       } 
     };
 
-    // make sure props.matchId is not undefined
-    props.matchId && fetchLikes();
+    fetchLikes();
   },[props.matchId]);
 
   return (
