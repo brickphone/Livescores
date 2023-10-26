@@ -19,15 +19,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Getting token from local storage
-    const token = localStorage.getItem("token");
 
     try {
       const response = await fetch("http://localhost:3000/auth/login", {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({
           user: username,

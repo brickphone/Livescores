@@ -12,6 +12,7 @@ import jwt from "jsonwebtoken";
 import { Strategy } from "passport-local";
 import CommentModel from "./database/models/comment.js";
 import LikeModel from "./database/models/like.js"
+import { verify } from "crypto";
 
 const app = express();
 const PORT = 3000;
@@ -29,7 +30,7 @@ app.use(cors({
 // session cookies
 app.use(
   session({
-    secret: "secretcode",
+    secret: "secretkey",
     resave: true,
     saveUninitialized: true
   })
@@ -38,6 +39,8 @@ app.use(
 // initialize passport 
 app.use(passport.initialize());
 app.use(passport.session());
+passportConfig(passport);
+
 
 // ---- end of middleware
 
@@ -72,8 +75,6 @@ app.post("/user", async (req, res) => {
   }
 });
 
-passportConfig(passport);
-
 // login
 app.post("/auth/login", (req, res, next) => {
   console.log("Recieved login request:", req.body);
@@ -102,22 +103,6 @@ app.post("/auth/login", (req, res, next) => {
     }
   })(req, res, next);
 });
-
-// Google authentication route
-app.get("/auth/google", (req, res, next) => {
-  console.log("Google authentication route hit!");
-  passport.authenticate("google", { scope: ["profile", "email"] }) (req,res, next);
-});
-
-// google callback route
-app.get("/auth/google/callback", (req, res, next) => {
-  console.log("Google callback route hit.");
-  passport.authenticate("google", { failureRedirect: "/" }, function (req, res) {
-    // Successful authentication, redirect or respond as needed
-    res.redirect("/");
-  })(req, res, next);
-});
- 
 
 // logout
 app.post("/logout", (req, res) => {
@@ -152,9 +137,9 @@ app.post("/comments", async (req, res) => {
 app.post("/likes", async (req, res) => {
   try {
     const { matchId } = req.body;
-    
+
     // check if like document already exists for the match
-    const existingLike = await LikeModel.findOne({ matchId })
+    const existingLike = await LikeModel.findOne({ matchId})
 
     if (existingLike) {
       // if exists, increament like count
@@ -163,7 +148,7 @@ app.post("/likes", async (req, res) => {
       res.send(existingLike);
     } else {
       // if doesn't exist, create new one
-      const like = new LikeModel({ matchId, likeCount: 1 });
+      const like = new LikeModel({ matchId, likeCount: 1, });
       await like.save();
       res.send(like);
     }
@@ -179,8 +164,37 @@ app.get("/likes/:matchId", async (req, res) => {
   try {
     const likes = await LikeModel.find({ matchId });
     res.send(likes);
+  
   } catch (error) {
     console.error("Error fetching likes:", error);
+    res.status(500).send(error);
+  }
+});
+
+// handle dislikes 
+app.put("/dislikes", async (req, res) => {
+  try {
+    const { matchId } = req.body;
+
+    // check if like document already exists for the match
+    const existingLike = await LikeModel.findOne({ matchId });
+
+    if (existingLike) {
+      // if exists, and like count is greater than 0, decrement
+      if (existingLike.likeCount > 0) {
+        existingLike.likeCount =- 1;
+        await existingLike.save();
+        res.send(existingLike);
+      } else {
+        // If likeCount is already 0, send a response indicating that it's at the minimum.
+        res.status(400).send("Like count is under 0.");
+      }
+    } else {
+      // If it doesn't exist, send a response indicating that the post hasn't been liked yet.
+      res.status(400).send("Like does not exist yet.");
+    }
+  } catch (error) {
+    console.error("Error disliking like:", error);
     res.status(500).send(error);
   }
 });

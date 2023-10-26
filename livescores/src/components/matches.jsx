@@ -13,31 +13,65 @@ const Matches = (props) => {
   const modalRef = useRef(null);
   const [comments, setComments] = useState(0);
   const [likes, setLikes] = useState(0);
-  const [fillHeart, setFillHeart] = useState(false);
   const { token } = useAuth();
+  const [hasLiked, setHasLiked] = useState(false);
+
+  const [fillHeart, setFillHeart] = useState(hasLiked);
+
+  // check if user has liked post using localstorage
+  useEffect(() => {
+    const hasLikedPost = localStorage.getItem(`liked_${props.matchId}`);
+    
+    if (hasLikedPost) {
+      setHasLiked(true);
+      setFillHeart(true);
+    }
+  }, [props.matchId]);
+
+  console.log(hasLiked)
 
   // clicking the heart/like
   const heartClick = () => {
     if (!token) {
       props.setLikeMessage("Login to like!")
+    } else if (hasLiked) {
+      // User has already liked the post
+      props.setLikeMessage("You've already liked this post");
     } else {
-      setFillHeart(!fillHeart);
+      setFillHeart(true);
       setLikes((prevLikes) => prevLikes + 1);
+
+      localStorage.setItem(`liked_${props.matchId}`, 'true');
 
       // send data to server
       sendLikeToServer();
+
+      setHasLiked(true);
     }
+    
   };
 
+  // unclick the heart, eg dislike
   const heartUnclick = () => {
-    setFillHeart(!fillHeart);
+    if (!token) {
+      props.setLikeMessage("Login to dislike!");
+    } else {
+      setFillHeart(false);
+      setLikes((prevLikes) => prevLikes - 1);
 
-    setLikes((prevLikes) => prevLikes - 1);
+      localStorage.removeItem(`liked_${props.matchId}`);
+
+      // send a dislike request to the server.
+      sendDislikeToServer();
+
+      setHasLiked(false);
+    }
+    
 
     // send data to server
     sendLikeToServer();
+    setHasLiked(false);
   };
-
 
   // opening the match modal
   const openModal = () => {
@@ -48,7 +82,6 @@ const Matches = (props) => {
   // closing modal
   const closeModal = (event) => {
     if (!modalRef.current.contains(event.target)) {
-      console.log('closing modal');
       setIsOpen(false);
     }
   };
@@ -62,22 +95,10 @@ const Matches = (props) => {
     };
   }, []);
 
-  // style for the modal
-  const modalStyle = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    borderRadius: 4,
-    boxShadow: 4,
-    p: 4,
-  };
-
-  // like req to server
+  // like request to server
   const sendLikeToServer = async () => {
-    const matchId = props.matchId
+    const matchId = props.matchId;
+
     try {
       const response = await fetch("http://localhost:3000/likes", {
         method: "POST",
@@ -96,9 +117,35 @@ const Matches = (props) => {
       }
 
     } catch (error) {
-      console.error("Network error:", error);
+      console.error("Network error sending like:", error);
     }
   };
+
+  // dislike request to server
+  const sendDislikeToServer = async () => {
+    const matchId = props.matchId;
+
+    try {
+      const response = await fetch("http://localhost:3000/dislikes", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          matchId,
+        }),
+      });
+
+      if (response.ok) {
+        console.log("dislike saved");
+      } else {
+        console.error("error saving dislike");
+      }
+
+    } catch (error) {
+      console.error("Network error sending dislike")
+    }
+  }
 
   // fetch likes for matches
   useEffect(() => {
@@ -107,8 +154,8 @@ const Matches = (props) => {
         const response = await fetch(`http://localhost:3000/likes/${props.matchId}`)
         if (response.ok) {
           const likesData = await response.json();
-          if (likesData.likes !== undefined) {
-            setLikes(likesData.likes);
+          if (likesData.length > 0) {
+            setLikes(likesData[0].likeCount);
           } else {
             setLikes(0);
           }
@@ -122,6 +169,19 @@ const Matches = (props) => {
 
     fetchLikes();
   },[props.matchId]);
+
+    // style for the modal
+    const modalStyle = {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      bgcolor: 'background.paper',
+      borderRadius: 4,
+      boxShadow: 4,
+      p: 4,
+    };
 
   return (
     <div className="flex items-center justify-center" onClick={openModal} ref={modalRef}>
