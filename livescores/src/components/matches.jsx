@@ -284,7 +284,7 @@ const Matches = (props) => {
           ) : (
             <p>No event available</p>
           )}
-          <div id='modal-social' className='pt-2 pl-32 flex items-center'>
+          <div id='modal-social' className='pl-12 flex items-center mt-auto'  style={{ position: 'absolute', bottom: '0', left: '0', width: '100%' }}>
           {fillHeart ? <AiFillHeart onClick={heartUnclick} className='text-xl'/> : <AiOutlineHeart onClick={() => {
               if (!token) {
                 props.setLikeMessage("Please login to like"); // If not logged in
