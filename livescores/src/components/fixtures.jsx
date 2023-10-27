@@ -6,7 +6,7 @@ import { fetchFixtures, saveLocal, getLocal } from '../apiFetch';
 import { Button } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import Skeleton from '@mui/material/Skeleton';
-import LikeMessage from "./likeMessage.jsx"
+import LikeMessage from "./LikeMessage.jsx"
 
 const Fixtures = () => {
   const [fixtures, setFixtures] = useState([]);
