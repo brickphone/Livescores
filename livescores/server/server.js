@@ -182,7 +182,7 @@ app.put("/dislikes", async (req, res) => {
     if (existingLike) {
       // if exists, and like count is greater than 0, decrement
       if (existingLike.likeCount > 0) {
-        existingLike.likeCount =- 1;
+        existingLike.likeCount -= 1;
         await existingLike.save();
         res.send(existingLike);
       } else {

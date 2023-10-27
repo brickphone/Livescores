@@ -28,7 +28,6 @@ const Matches = (props) => {
     }
   }, [props.matchId]);
 
-  console.log(hasLiked)
 
   // clicking the heart/like
   const heartClick = () => {
@@ -66,11 +65,6 @@ const Matches = (props) => {
 
       setHasLiked(false);
     }
-    
-
-    // send data to server
-    sendLikeToServer();
-    setHasLiked(false);
   };
 
   // opening the match modal
@@ -190,12 +184,12 @@ const Matches = (props) => {
           {props.matchTime !== undefined ? <h2 className="pl-5 pt-1 text-red-600 font-semibold" id="time">{props.matchTime + "'"}</h2> : null}
         </div>
         <div className="flex justify-between items-center pt-5" id="hometeam">
-          {props.homeLogo === undefined ? <Skeleton variant="circular" width={40} height={40}></Skeleton> : <img className="w-18 h-18 flex-none" src={props.homeLogo} alt="Home Logo" />}
+          {props.homeLogo === undefined ? <Skeleton variant="circular" width={40} height={40}></Skeleton> : <img className="w-18 h-18 flex-none" src={props.homeLogo} />}
           <h2 className="pl-2 font-semibold w-32 text-left">{props.homeName}</h2>
           {props.homeScore < 1 ? <h2 className="font-bold w-12 text-right" id="homescore">{props.homeScore}</h2> : <h2 className="font-bold w-12 text-right text-green-600" id="homescore">{props.homeScore}</h2>}
         </div>
         <div className="flex justify-between items-center pt-1" id="awayteam">
-          <img className="w-18 h-18 flex-none" src={props.awayLogo} alt="Away Logo" />
+          <img className="w-18 h-18 flex-none" src={props.awayLogo}/>
           <h2 className="pl-2 font-semibold w-32 text-left">{props.awayName}</h2>
           {props.awayScore > props.homeScore ? (
             <h2 className="font-bold w-12 text-right text-green-600" id="awayscore">
@@ -245,7 +239,7 @@ const Matches = (props) => {
             )}
           </div>
           <div className="flex justify-between items-center pt-1" id="awayteam">
-            <img className="w-18 h-18 flex-none" src={props.awayLogo} alt="Away Logo" />
+            <img className="w-18 h-18 flex-none" src={props.awayLogo} />
             <h2 className="pl-2 font-semibold w-32 text-left">{props.awayName}</h2>
             {props.awayScore > props.homeScore ? (
               <h2 className="font-bold w-12 text-right text-green-600" id="awayscore">
@@ -290,6 +284,17 @@ const Matches = (props) => {
           ) : (
             <p>No event available</p>
           )}
+          <div id='modal-social' className='pt-2 pl-32 flex items-center'>
+          {fillHeart ? <AiFillHeart onClick={heartUnclick} className='text-xl'/> : <AiOutlineHeart onClick={() => {
+              if (!token) {
+                props.setLikeMessage("Please login to like"); // If not logged in
+              } else {
+                props.setLikeMessage(""); // Clear like message
+                heartClick();
+              }
+            }} className='text-xl'/>}
+            <h2>{likes}</h2>
+          </div>
         </Box>
       </Modal>
     </div>
